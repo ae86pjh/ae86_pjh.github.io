@@ -1,0 +1,156 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>滑动窗口 | ae86's Blog</title><meta name="keywords" content="labuladong的算法小抄,学习笔记"><meta name="author" content="对好的就这样"><meta name="copyright" content="对好的就这样"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="简介滑动窗口算法本质上还是基于左右指针的算法，就是用左右指针规定窗口范围，减少一些不必要的比较，提升算法的时间复杂度。该算法通常用于解决一些子串问题。 注：  子串与子序列不同，子串是要求连续的，子序列不要求连续。 框架123456789101112131415161718192021222324252627282930&#x2F;&#x2F;滑动窗口算法框架void slidingWindow(string s,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="滑动窗口">
+<meta property="og:url" content="http://example.com/2021/05/17/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/index.html">
+<meta property="og:site_name" content="ae86&#39;s Blog">
+<meta property="og:description" content="简介滑动窗口算法本质上还是基于左右指针的算法，就是用左右指针规定窗口范围，减少一些不必要的比较，提升算法的时间复杂度。该算法通常用于解决一些子串问题。 注：  子串与子序列不同，子串是要求连续的，子序列不要求连续。 框架123456789101112131415161718192021222324252627282930&#x2F;&#x2F;滑动窗口算法框架void slidingWindow(string s,">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/ae86pjh/pic/raw/master/pic/algorithm.png">
+<meta property="article:published_time" content="2021-05-17T11:51:56.000Z">
+<meta property="article:modified_time" content="2021-05-17T13:33:36.124Z">
+<meta property="article:author" content="对好的就这样">
+<meta property="article:tag" content="labuladong的算法小抄">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/ae86pjh/pic/raw/master/pic/algorithm.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/05/17/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '滑动窗口',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-05-17 21:33:36'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://gitee.com/ae86pjh/pic/raw/master/pic/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">ae86's Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">滑动窗口</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-05-17T11:51:56.000Z" title="发表于 2021-05-17 19:51:56">2021-05-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-05-17T13:33:36.124Z" title="更新于 2021-05-17 21:33:36">2021-05-17</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="滑动窗口"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div><article class="post-content" id="article-container"><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><strong>滑动窗口算法</strong>本质上还是基于左右指针的算法，就是用左右指针规定窗口范围，减少一些不必要的比较，提升算法的时间复杂度。该算法通常用于解决一些子串问题。</p>
+<p><strong>注：</strong>  子串与子序列不同，子串是要求连续的，子序列不要求连续。</p>
+<h2 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//滑动窗口算法框架</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">slidingWindow</span><span class="params">(string s, string t)</span></span>&#123;</span><br><span class="line">    <span class="comment">//window表示窗口里的元素当前的个数，通常我们只记录有意义的信息</span></span><br><span class="line">    <span class="comment">//need表示不同元素所需要的个数，需要满足要求</span></span><br><span class="line">	unordered_map&lt;<span class="keyword">char</span>, <span class="keyword">int</span>&gt; need, window;</span><br><span class="line">    <span class="comment">//将子串所需要的，用need来表示</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">char</span> c : t) need[c]++;</span><br><span class="line">    <span class="comment">//这里采用的是左闭右开的区间表示方式，目前没有任何元素</span></span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>,right = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> valid = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(right &lt; s.<span class="built_in">size</span>())&#123;</span><br><span class="line">        <span class="comment">//移入窗口的元素</span></span><br><span class="line">		<span class="keyword">char</span> c = s[right];</span><br><span class="line">        right++;</span><br><span class="line">        <span class="comment">//对窗口内的数据的一系列更新</span></span><br><span class="line">        ...</span><br><span class="line">            </span><br><span class="line">        <span class="comment">//用于debug</span></span><br><span class="line">        cout &lt;&lt; left &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; right &lt;&lt; endl;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//判断哪些是要收缩的</span></span><br><span class="line">        <span class="keyword">while</span>(window needs shrink)&#123;</span><br><span class="line">            <span class="comment">//移出窗口的元素</span></span><br><span class="line">        	<span class="keyword">char</span> d = s[left];</span><br><span class="line">            left++;</span><br><span class="line">            <span class="comment">//对窗口进行一系列更新</span></span><br><span class="line">            ...</span><br><span class="line">		&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注：</strong>窗口的长度可以用<code>right-left</code>来表示。</p>
+<h2 id="寻找窗口中的元素在子串中"><a href="#寻找窗口中的元素在子串中" class="headerlink" title="寻找窗口中的元素在子串中"></a>寻找窗口中的元素在子串中</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//窗口中添加元素</span></span><br><span class="line"><span class="keyword">if</span>(need.<span class="built_in">count</span>(c))&#123;</span><br><span class="line">    window[c]++;</span><br><span class="line">    <span class="keyword">if</span>(window[c] == need[c])&#123;</span><br><span class="line">        valid++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//窗口中减少元素</span></span><br><span class="line"><span class="keyword">if</span>(need.<span class="built_in">count</span>(d))&#123;</span><br><span class="line">   	<span class="keyword">if</span>(window[d] == need[d])&#123;</span><br><span class="line">        valid--;</span><br><span class="line">	&#125;</span><br><span class="line">    window[d]--;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注：</strong><code>valid</code>指的是满足need要求的元素的个数，这里加减的顺序有所差异，需要注意。</p>
+<h2 id="收缩时常用的做法"><a href="#收缩时常用的做法" class="headerlink" title="收缩时常用的做法"></a>收缩时常用的做法</h2><p>通常有两种收缩的方式</p>
+<p>1.增加窗口时找到了符合题意的字符串，再用缩小窗口来找最优解</p>
+<p>2.当不可能满足条件时进行收缩(类似剪枝的感觉)，常用的是长度<code>right-left &gt; t.size()</code>，并且在收缩后查看是否满足题意。</p>
+<p><strong>注：</strong>在寻找多个解时，该框架依然适用，因为本框架增长窗口是一个一个加的，并且每加一个，都会尝试收缩，避免了漏解的可能性。有点像暴力遍历所有解，然后剪枝的感觉。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">对好的就这样</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/05/17/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/">http://example.com/2021/05/17/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">ae86's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/labuladong%E7%9A%84%E7%AE%97%E6%B3%95%E5%B0%8F%E6%8A%84/">labuladong的算法小抄</a><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div><div class="post_share"><div class="social-share" data-image="https://gitee.com/ae86pjh/pic/raw/master/pic/algorithm.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/05/16/%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%E5%A5%97%E8%B7%AF%E5%85%A5%E9%97%A8/"><img class="next-cover" src="https://gitee.com/ae86pjh/pic/raw/master/pic/20210516141210.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">二分搜索套路入门</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/05/16/BFS入门/" title="BFS入门"><img class="cover" src="https://gitee.com/ae86pjh/pic/raw/master/pic/20210516141357.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-16</div><div class="title">BFS入门</div></div></a></div><div><a href="/2021/05/16/双指针技巧入门/" title="双指针技巧入门"><img class="cover" src="https://gitee.com/ae86pjh/pic/raw/master/pic/20210516141649.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-16</div><div class="title">双指针技巧入门</div></div></a></div><div><a href="/2021/05/16/二分搜索套路入门/" title="二分搜索套路入门"><img class="cover" src="https://gitee.com/ae86pjh/pic/raw/master/pic/20210516141210.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-16</div><div class="title">二分搜索套路入门</div></div></a></div><div><a href="/2021/05/15/动态规划入门/" title="动态规划入门"><img class="cover" src="https://gitee.com/ae86pjh/pic/raw/master/pic/algorithm.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-15</div><div class="title">动态规划入门</div></div></a></div><div><a href="/2021/05/16/回溯算法入门/" title="回溯算法入门"><img class="cover" src="https://gitee.com/ae86pjh/pic/raw/master/pic/algorithm.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-05-16</div><div class="title">回溯算法入门</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://gitee.com/ae86pjh/pic/raw/master/pic/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">对好的就这样</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/ae86pjh"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/ae86pjh" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:865178003@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">Welcome to my Blog!</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6"><span class="toc-number">2.</span> <span class="toc-text">框架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%BB%E6%89%BE%E7%AA%97%E5%8F%A3%E4%B8%AD%E7%9A%84%E5%85%83%E7%B4%A0%E5%9C%A8%E5%AD%90%E4%B8%B2%E4%B8%AD"><span class="toc-number">3.</span> <span class="toc-text">寻找窗口中的元素在子串中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%B6%E7%BC%A9%E6%97%B6%E5%B8%B8%E7%94%A8%E7%9A%84%E5%81%9A%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">收缩时常用的做法</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/05/17/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" title="滑动窗口"><img src="https://gitee.com/ae86pjh/pic/raw/master/pic/algorithm.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="滑动窗口"/></a><div class="content"><a class="title" href="/2021/05/17/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" title="滑动窗口">滑动窗口</a><time datetime="2021-05-17T11:51:56.000Z" title="发表于 2021-05-17 19:51:56">2021-05-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/05/16/%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%E5%A5%97%E8%B7%AF%E5%85%A5%E9%97%A8/" title="二分搜索套路入门"><img src="https://gitee.com/ae86pjh/pic/raw/master/pic/20210516141210.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="二分搜索套路入门"/></a><div class="content"><a class="title" href="/2021/05/16/%E4%BA%8C%E5%88%86%E6%90%9C%E7%B4%A2%E5%A5%97%E8%B7%AF%E5%85%A5%E9%97%A8/" title="二分搜索套路入门">二分搜索套路入门</a><time datetime="2021-05-16T04:56:12.000Z" title="发表于 2021-05-16 12:56:12">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/05/16/%E5%8F%8C%E6%8C%87%E9%92%88%E6%8A%80%E5%B7%A7%E5%85%A5%E9%97%A8/" title="双指针技巧入门"><img src="https://gitee.com/ae86pjh/pic/raw/master/pic/20210516141649.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="双指针技巧入门"/></a><div class="content"><a class="title" href="/2021/05/16/%E5%8F%8C%E6%8C%87%E9%92%88%E6%8A%80%E5%B7%A7%E5%85%A5%E9%97%A8/" title="双指针技巧入门">双指针技巧入门</a><time datetime="2021-05-16T04:55:14.000Z" title="发表于 2021-05-16 12:55:14">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/05/16/BFS%E5%85%A5%E9%97%A8/" title="BFS入门"><img src="https://gitee.com/ae86pjh/pic/raw/master/pic/20210516141357.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="BFS入门"/></a><div class="content"><a class="title" href="/2021/05/16/BFS%E5%85%A5%E9%97%A8/" title="BFS入门">BFS入门</a><time datetime="2021-05-16T04:54:12.000Z" title="发表于 2021-05-16 12:54:12">2021-05-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/05/16/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%E5%85%A5%E9%97%A8/" title="回溯算法入门"><img src="https://gitee.com/ae86pjh/pic/raw/master/pic/algorithm.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="回溯算法入门"/></a><div class="content"><a class="title" href="/2021/05/16/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95%E5%85%A5%E9%97%A8/" title="回溯算法入门">回溯算法入门</a><time datetime="2021-05-16T04:44:59.000Z" title="发表于 2021-05-16 12:44:59">2021-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By 对好的就这样</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="true" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
